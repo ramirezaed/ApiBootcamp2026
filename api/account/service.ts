@@ -1,7 +1,7 @@
 import accountsDao from "./dao";
 import { IRegisterAccountDao } from "./types";
 import { HttpError } from "../../errors/HttpError";
-import mongoose from "mongoose";
+import mongoose, { ClientSession } from "mongoose";
 
 const accountsService = {
   async index(page: number, limit: number) {
@@ -140,6 +140,14 @@ const accountsService = {
     } finally {
       await session.endSession();
     }
+  },
+
+  async destroy(userId: string, session: ClientSession) {
+    const accountExists = await accountsDao.findByUser(userId);
+    if (!accountExists) throw new HttpError(404, "Recurso no encontrado");
+    if (accountExists.balance > 0)
+      throw new HttpError(400, "La cuenta se encuentra con dinero disponible");
+    return await accountsDao.destroy(userId, session);
   },
 };
 

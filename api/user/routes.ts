@@ -208,6 +208,8 @@ userRoutes.patch("/me/password", auth, changePassword);
  *                 message:
  *                   type: string
  *                   example: "Usuario Eliminado"
+ *       400:
+ *         description: La cuenta se encuentra con dinero disponible
  *       401:
  *         description: No autorizado. Token faltante, inválido o expirado
  *       404:
