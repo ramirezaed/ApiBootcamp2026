@@ -6,7 +6,7 @@ import { HttpError } from "../../errors/HttpError";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import accountRegistrationService from "../../service/createAccount";
-import accountsDao from "../account/dao";
+import accountsService from "../account/service";
 
 const userService = {
   async create(data: IRegisterUserDao) {
@@ -50,6 +50,7 @@ const userService = {
       },
     };
   },
+
   async update(id: string, data: IUpdateUserDao) {
     const userExists = await userDao.findByid(id);
     if (!userExists) throw new HttpError(404, "Recurso no encontrado");
@@ -73,7 +74,7 @@ const userService = {
       const user = await session.withTransaction(async () => {
         const destroyed = await userDao.destroy(id, session);
         if (!destroyed) throw new HttpError(404, "Recurso no encontrado");
-        await accountsDao.destroy(id, session);
+        await accountsService.destroy(id, session);
         return destroyed;
       });
       return { message: "Usuario Eliminado" };
@@ -109,6 +110,12 @@ const userService = {
 
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) throw new HttpError(401, "Contraseña actual incorrecta");
+
+    if (newPassword.length < 8)
+      throw new HttpError(
+        400,
+        "La nueva contraseña debe tener al menos 8 caracteres",
+      );
 
     const password = await bcrypt.hash(newPassword, 10);
 
