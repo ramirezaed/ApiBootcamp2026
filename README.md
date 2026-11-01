@@ -17,13 +17,7 @@ El backend está organizado de forma modular. Cada dominio de negocio (como `use
 
 ---
 
-## 🛠️ Tecnologías y Herramientas
-
-*   **Entorno de Ejecución:** Node.js (con NPM)
-*   **Framework Web:** Express.js
-*   **Lenguaje:** TypeScript
-*   **Base de Datos & ODM:** MongoDB & Mongoose
-*   **Documentación:** Swagger
+## 🛠️ Tecnologías: Node.js • Express • TypeScript • MongoDB • Mongoose • Swagger
 
 ---
 
