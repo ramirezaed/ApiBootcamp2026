@@ -110,6 +110,11 @@ const userService = {
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) throw new HttpError(401, "Contraseña actual incorrecta");
 
+    if (newPassword.length < 8)
+      throw new HttpError(
+        400,
+        "La nueva contraseña debe tener al menos 8 caracteres",
+      );
     const password = await bcrypt.hash(newPassword, 10);
 
     await userDao.changePassword(id, password);
