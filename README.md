@@ -93,3 +93,9 @@ El sistema cuenta con un control de accesos basado en dos roles: **admin** y **u
 | **PATCH** | `/alias`    | `auth`             | Modifica el alias identificador de la cuenta          |
 | **PATCH** | `/deposit`  | `auth`             | Realiza un depósito de dinero en la cuenta            |
 | **PATCH** | `/transfer` | `auth`             | Realiza una transferencia monetaria hacia otra cuenta |
+
+### 💳 Movimientos (`/api/movements`)
+
+| Método  | Endpoint | Middleware / Roles | Descripción                                          |
+| :------ | :------- | :----------------- | :--------------------------------------------------- |
+| **GET** | `/me`    | `auth`             | Obtiene los detalles de los movimientos de su cuenta |
