@@ -8,12 +8,12 @@ API RESTful para una plataforma de Billetera Virtual (Digital Wallet). Este proy
 
 El backend está organizado de forma modular. Cada dominio de negocio (como `user` o `account`) se encapsula en su propia carpeta y se divide en las siguientes capas de responsabilidad:
 
-*   **Routes (`routes.ts`):** Definición de endpoints HTTP.
-*   **Controller (`controller.ts`):** Manejo de peticiones (`req`) y respuestas (`res`), validaciones sintácticas iniciales y control de excepciones.
-*   **Service (`service.ts`):** Capa medular donde reside toda la lógica de negocio y las reglas de transacciones financieras.
-*   **DAO - Data Access Object (`dao.ts`):** Capa de persistencia exclusiva encargada de interactuar directamente con Mongoose.
-*   **Model (`model.ts`):** Esquemas de Mongoose y modelos de MongoDB.
-*   **Types (`types.ts`):** Tipado estricto e interfaces de TypeScript nativas de cada componente.
+- **Routes (`routes.ts`):** Definición de endpoints HTTP.
+- **Controller (`controller.ts`):** Manejo de peticiones (`req`) y respuestas (`res`), validaciones sintácticas iniciales y control de excepciones.
+- **Service (`service.ts`):** Capa medular donde reside toda la lógica de negocio y las reglas de transacciones financieras.
+- **DAO - Data Access Object (`dao.ts`):** Capa de persistencia exclusiva encargada de interactuar directamente con Mongoose.
+- **Model (`model.ts`):** Esquemas de Mongoose y modelos de MongoDB.
+- **Types (`types.ts`):** Tipado estricto e interfaces de TypeScript nativas de cada componente.
 
 ---
 
@@ -24,12 +24,14 @@ El backend está organizado de forma modular. Cada dominio de negocio (como `use
 ## ⚙️ Configuración del Entorno
 
 1. **Clonar el repositorio:**
+
    ```bash
    git clone https://github.com/ramirezaed/ApiBootcamp2026.git
    cd ApiBootcamp2026
    ```
 
 2. **Instalar las dependencias:**
+
    ```bash
    npm install
    ```
@@ -70,25 +72,30 @@ Todas las rutas del proyecto están prefijadas bajo la siguiente URL base para t
 
 El sistema cuenta con un control de accesos basado en dos roles: **admin** y **user**.
 
-### 👤 Usuarios (`/api/user`)
+### 👤 Usuarios (`/api/users`)
 
-| Método | Endpoint | Middleware / Roles | Descripción |
-| :--- | :--- | :--- | :--- |
-| **GET** | `/` | `auth`, `isAdmin` | Lista todos los usuarios registrados (Solo Admins) |
-| **POST** | `/` | *Público* | Registra un nuevo usuario en la plataforma |
-| **GET** | `/me` | `auth` | Obtiene el perfil del usuario autenticado |
-| **PATCH** | `/me/password` | `auth` | Cambia la contraseña del usuario autenticado |
-| **PATCH** | `/` | `auth` | Actualiza los datos generales del perfil |
-| **DELETE** | `/` | `auth` | Elimina la cuenta del usuario autenticado |
-| **POST** | `/auth` | *Público* | Login de usuario. Retorna el Token JWT |
+| Método     | Endpoint       | Middleware / Roles | Descripción                                        |
+| :--------- | :------------- | :----------------- | :------------------------------------------------- |
+| **GET**    | `/`            | `auth`, `isAdmin`  | Lista todos los usuarios registrados (Solo Admins) |
+| **POST**   | `/`            | _Público_          | Registra un nuevo usuario en la plataforma         |
+| **GET**    | `/me`          | `auth`             | Obtiene el perfil del usuario autenticado          |
+| **PATCH**  | `/me/password` | `auth`             | Cambia la contraseña del usuario autenticado       |
+| **PATCH**  | `/`            | `auth`             | Actualiza los datos generales del perfil           |
+| **DELETE** | `/`            | `auth`             | Elimina la cuenta del usuario autenticado          |
+| **POST**   | `/auth`        | _Público_          | Login de usuario. Retorna el Token JWT             |
 
-### 💳 Cuentas (`/api/account`)
+### 💳 Cuentas (`/api/accounts`)
 
-| Método | Endpoint | Middleware / Roles | Descripción |
-| :--- | :--- | :--- | :--- |
-| **GET** | `/` | `auth`, `isAdmin` | Lista todas las cuentas del sistema (Solo Admins) |
-| **GET** | `/me` | `auth` | Obtiene los detalles y el saldo de la cuenta propia |
-| **PATCH** | `/alias` | `auth` | Modifica el alias identificador de la cuenta |
-| **PATCH** | `/deposit` | `auth` | Realiza un depósito de dinero en la cuenta |
-| **PATCH** | `/transfer` | `auth` | Realiza una transferencia monetaria hacia otra cuenta |
+| Método    | Endpoint    | Middleware / Roles | Descripción                                           |
+| :-------- | :---------- | :----------------- | :---------------------------------------------------- |
+| **GET**   | `/`         | `auth`, `isAdmin`  | Lista todas las cuentas del sistema (Solo Admins)     |
+| **GET**   | `/me`       | `auth`             | Obtiene los detalles y el saldo de la cuenta propia   |
+| **PATCH** | `/alias`    | `auth`             | Modifica el alias identificador de la cuenta          |
+| **PATCH** | `/deposit`  | `auth`             | Realiza un depósito de dinero en la cuenta            |
+| **PATCH** | `/transfer` | `auth`             | Realiza una transferencia monetaria hacia otra cuenta |
 
+### 💳 Movimientos (`/api/movements`)
+
+| Método  | Endpoint | Middleware / Roles | Descripción                                          |
+| :------ | :------- | :----------------- | :--------------------------------------------------- |
+| **GET** | `/me`    | `auth`             | Obtiene los detalles de los movimientos de su cuenta |

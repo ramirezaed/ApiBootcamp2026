@@ -33,7 +33,7 @@ const accountsDao = {
       },
     ),
 
-  deposit: (userId: string, amount: number) =>
+  deposit: (userId: string, amount: number, session: ClientSession) =>
     Accounts.findOneAndUpdate(
       {
         user: userId,
@@ -45,6 +45,7 @@ const accountsDao = {
       {
         returnDocument: "after",
         runValidators: true,
+        session,
       },
     ),
 
