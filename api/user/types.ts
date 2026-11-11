@@ -10,8 +10,3 @@ export interface IUpdateUserDao {
   lastname: string;
   email: string;
 }
-
-export interface ILogin {
-  email: string;
-  password: string;
-}

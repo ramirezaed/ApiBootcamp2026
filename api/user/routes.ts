@@ -5,8 +5,7 @@ import { isAdmin } from "../../middleware/isAdmin";
 
 const userRoutes = express.Router();
 
-const { create, show, index, destroy, update, login, changePassword } =
-  userController;
+const { create, show, index, destroy, update } = userController;
 
 /**
  * @swagger
@@ -95,97 +94,37 @@ userRoutes.post("/", create);
 
 /**
  * @swagger
- * /users/me:
+ * /users/{id}:
  *   get:
- *     summary: Obtener mi perfil
- *     description: Obtiene los datos del usuario autenticado mediante su token JWT.
- *     tags:
- *       - Users
+ *     summary: Obtener usuario por ID
+ *     description: Obtiene los datos de un usuario específico por su ID. Requiere autenticación.
+ *     tags: [Users]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del usuario.
+ *         example: 672a1b2c3d4e5f6789012345
  *     responses:
  *       200:
- *         description: Datos del usuario obtenidos correctamente
+ *         description: Usuario encontrado correctamente.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
- *               properties:
- *                 _id:
- *                   type: string
- *                   example: "672a1234567890abcdef1234"
- *                 name:
- *                   type: string
- *                   example: admin
- *                 lastname:
- *                   type: string
- *                   example: administrador
- *                 email:
- *                   type: string
- *                   format: email
- *                   example: admin@gmail.com
- *                 isAdmin:
- *                   type: boolean
- *                   example: true
+ *               description: Información del usuario.
  *       401:
- *         description: No autorizado. Token faltante, inválido o expirado
+ *         description: No autenticado o token inválido.
  *       404:
- *         description: Usuario no encontrado
+ *         description: Usuario no encontrado.
  *       500:
- *         description: Error interno del servidor
+ *         description: Error interno del servidor.
  */
-userRoutes.get("/me", auth, show);
-
-/**
- * @swagger
- * /users/me/password:
- *   patch:
- *     summary: Cambiar mi contraseña
- *     description: Permite al usuario autenticado cambiar su contraseña verificando primero la contraseña actual.
- *     tags:
- *       - Users
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - currentPassword
- *               - newPassword
- *             properties:
- *               currentPassword:
- *                 type: string
- *                 example: "01234567"
- *                 description: Contraseña actual del usuario
- *               newPassword:
- *                 type: string
- *                 minLength: 8
- *                 example: "12345678"
- *                 description: Nueva contraseña (mínimo 8 caracteres)
- *     responses:
- *       200:
- *         description: Contraseña actualizada correctamente
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Contraseña Actualizada"
- *       400:
- *         description: La nueva contraseña debe tener al menos 8 caracteres
- *       401:
- *         description: No autorizado o contraseña actual incorrecta
- *       404:
- *         description: Usuario no encontrado
- *       500:
- *         description: Error interno del servidor
- */
-userRoutes.patch("/me/password", auth, changePassword);
+userRoutes.get("/:id", auth, isAdmin, show);
 
 /**
  * @swagger
@@ -262,60 +201,5 @@ userRoutes.delete("/", auth, destroy);
  *         description: Error interno del servidor
  */
 userRoutes.patch("/", auth, update);
-
-/**
- * @swagger
- * /users/auth:
- *   post:
- *     summary: Iniciar sesión
- *     description: Autentica al usuario mediante email y contraseña y devuelve un token JWT.
- *     tags:
- *       - Users
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - email
- *               - password
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *                 example: admin@gmail.com
- *                 description: Correo electrónico del usuario
- *               password:
- *                 type: string
- *                 example: "12345678"
- *                 description: Contraseña del usuario
- *     responses:
- *       200:
- *         description: Inicio de sesión exitoso
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 payload:
- *                   type: object
- *                   properties:
- *                     _id:
- *                       type: string
- *                       example: "672a1234567890abcdef1234"
- *                     isAdmin:
- *                       type: boolean
- *                       example: true
- *                 accessToken:
- *                   type: string
- *                   description: Token JWT para autenticar futuras solicitudes
- *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
- *       400:
- *         description: Credenciales incorrectas
- *       500:
- *         description: Error interno del servidor
- */
-userRoutes.post("/auth", login);
 
 export default userRoutes;
