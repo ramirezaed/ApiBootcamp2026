@@ -12,7 +12,8 @@ const userController = {
 
   async show(req: Request, res: Response, next: NextFunction) {
     try {
-      res.status(200).json(await userService.findById(req.user!.id));
+      const id = req.params.id as string;
+      res.status(200).json(await userService.findById(id));
     } catch (error) {
       next(error);
     }
@@ -38,32 +39,7 @@ const userController = {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
-      res.status(200).json(await userService.update(id, req.body));
-    } catch (error) {
-      next(error);
-    }
-  },
-
-  async login(req: Request, res: Response, next: NextFunction) {
-    try {
-      res.status(200).json(await userService.login(req.body));
-    } catch (error) {
-      next(error);
-    }
-  },
-
-  async changePassword(req: Request, res: Response, next: NextFunction) {
-    try {
-      res
-        .status(200)
-        .json(
-          await userService.changePassword(
-            req.user!.id,
-            req.body.currentPassword,
-            req.body.newPassword,
-          ),
-        );
+      res.status(200).json(await userService.update(req.user!.id, req.body));
     } catch (error) {
       next(error);
     }
