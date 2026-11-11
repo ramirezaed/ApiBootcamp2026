@@ -74,15 +74,21 @@ El sistema cuenta con un control de accesos basado en dos roles: **admin** y **u
 
 ### 👤 Usuarios (`/api/users`)
 
-| Método     | Endpoint       | Middleware / Roles | Descripción                                        |
-| :--------- | :------------- | :----------------- | :------------------------------------------------- |
-| **GET**    | `/`            | `auth`, `isAdmin`  | Lista todos los usuarios registrados (Solo Admins) |
-| **POST**   | `/`            | _Público_          | Registra un nuevo usuario en la plataforma         |
-| **GET**    | `/me`          | `auth`             | Obtiene el perfil del usuario autenticado          |
-| **PATCH**  | `/me/password` | `auth`             | Cambia la contraseña del usuario autenticado       |
-| **PATCH**  | `/`            | `auth`             | Actualiza los datos generales del perfil           |
-| **DELETE** | `/`            | `auth`             | Elimina la cuenta del usuario autenticado          |
-| **POST**   | `/auth`        | _Público_          | Login de usuario. Retorna el Token JWT             |
+| Método     | Endpoint | Middleware / Roles | Descripción                                        |
+| :--------- | :------- | :----------------- | :------------------------------------------------- |
+| **GET**    | `/`      | `auth`, `isAdmin`  | Lista todos los usuarios registrados (Solo Admins) |
+| **POST**   | `/`      | _Público_          | Registra un nuevo usuario en la plataforma         |
+| **PATCH**  | `/`      | `auth`             | Actualiza los datos generales del perfil           |
+| **DELETE** | `/`      | `auth`             | Elimina la cuenta del usuario autenticado          |
+| **GET**    | `/id`    | `auth`, `isAdmin`  | Obtiene el perfil del usuario                      |
+
+### 👤 Auth (`/api/auth`)
+
+| Método    | Endpoint       | Middleware / Roles | Descripción                                  |
+| :-------- | :------------- | :----------------- | :------------------------------------------- |
+| **GET**   | `/me`          | `auth`             | Obtiene el perfil del usuario autenticado    |
+| **PATCH** | `/me/password` | `auth`             | Cambia la contraseña del usuario autenticado |
+| **POST**  | `/auth`        | _Público_          | Login de usuario. Retorna el Token JWT       |
 
 ### 💳 Cuentas (`/api/accounts`)
 
