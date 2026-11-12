@@ -155,6 +155,6 @@ authRoutes.get("/me", auth, me);
  *       500:
  *         description: Error interno del servidor
  */
-authRoutes.patch("/me/password", changePassword);
+authRoutes.patch("/me/password", auth, changePassword);
 
 export default authRoutes;
