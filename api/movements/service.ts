@@ -10,7 +10,7 @@ const movementsService = {
     const skip = (page - 1) * limit;
     const [movements, total] = await Promise.all([
       movementsDao.index(account._id.toString(), skip, limit),
-      movementsDao.count(),
+      movementsDao.count(account._id.toString()),
     ]);
 
     return {

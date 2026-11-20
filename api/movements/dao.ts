@@ -15,7 +15,8 @@ const movementsDao = {
       .limit(limit)
       .populate("counterpartAccount", "alias cvu"),
 
-  count: () => Movements.countDocuments(),
+  count: (accountId: string) =>
+    Movements.countDocuments({ account: accountId }),
 };
 
 export default movementsDao;
